@@ -1,20 +1,21 @@
-name: Jekyll site CI
+name: Deploy HTML File
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches:
+      - main  # Change this to your main branch name
 
 jobs:
-  build:
-
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the site in the jekyll/builder container
-      run: |
-        docker run \
-        -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
-        jekyll/builder:latest /bin/bash -c "chmod -R 777 /srv/jekyll && jekyll build --future"
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Deploy HTML File
+        run: |
+          mkdir public
+          mv index.html public/
+          ls -R
+        # Optionally, you can add steps to deploy the HTML file to a web server or hosting service.
